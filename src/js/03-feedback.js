@@ -46,6 +46,9 @@ const onFeedbackFormSubmit = (e) =>{
     console.log('e', e)
     console.log('feedbackData', feedbackData);
     e.currentTarget.reset();
+    localStorage.clear();
+
+
 }
 
 userEmail.addEventListener('input', throttle(onEmailChange, 500));
