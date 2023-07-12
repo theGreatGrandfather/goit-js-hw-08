@@ -16,20 +16,30 @@ console.log('userEmail', userMessage)
 const onEmailChange = e=>{
     console.log('e', e.target.value)
     console.log('feedbackData', feedbackData)
-    feedbackData.email =  e.target.value;
+
+    const data = localStorage.getItem(FFS);
+    const parseData = data === null ? undefined : JSON.parse(data);
+
+    parseData? feedbackData.message = parseData.message: feedbackData.message = "";
+    feedbackData.email = e.target.value;    
     localStorage.setItem(FFS, JSON.stringify(feedbackData));
-    
-}
+};
+
 const onMessagChange = e=>{
     console.log('e', e.target.value)
     console.log('feedbackData', feedbackData)
+
+    const data = localStorage.getItem(FFS);
+    const parseData = data === null ? undefined : JSON.parse(data);
+
+    parseData? feedbackData.email = parseData.email: feedbackData.email = "";
     feedbackData.message =  e.target.value;
     localStorage.setItem(FFS, JSON.stringify(feedbackData));
 }
 
 const loadLocalStorage = key => {
     try {
-        const serializedState = localStorage.getItem(key);
+        const serializedState = localStorage.getItem(FFS);
         return serializedState === null ? undefined : JSON.parse(serializedState);
     } catch (error) {
         console.error("Get state error: ", error.message);
@@ -44,12 +54,13 @@ response ? userMessage.value = response.message :"";
 const onFeedbackFormSubmit = (e) =>{
     e.preventDefault();
     console.log('e', e)
-    console.log('feedbackData', feedbackData);
+
+    const data = localStorage.getItem(FFS);
+    const parseData = data === null ? undefined : JSON.parse(data);
+    parseData?console.log('parseData', parseData): alert('Please write your message')
     e.currentTarget.reset();
     localStorage.clear();
-
-
-}
+};
 
 userEmail.addEventListener('input', throttle(onEmailChange, 500));
 userMessage.addEventListener('input', throttle(onMessagChange, 500));
